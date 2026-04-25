@@ -1,0 +1,26 @@
+{
+  "source_path": "/Users/antoinevoinchet/Desktop/Hackathon/voodoo-creative-radar-prd.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Voodoo Creative Radar — PRD for Claude Code",
+  "summary": "Product requirements for Voodoo Creative Radar, a 4-step web app that analyzes market ads and generates a 30s testable creative video for a selected Voodoo game.",
+  "scope": [
+    "Voodoo Creative Radar web app",
+    "Landing page",
+    "Project page with 4 workflow tabs",
+    "Game Identity step",
+    "Market Scan step",
+    "Pattern Analysis step",
+    "Creative Output step",
+    "Sensor Tower integration",
+    "Gemini video analysis integration",
+    "Scenario video generation integration",
+    "Next.js App Router frontend",
+    "Vercel deployment"
+  ],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": 2,
+  "notes": ""
+}
