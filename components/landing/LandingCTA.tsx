@@ -10,7 +10,7 @@ export function LandingCTA() {
   const setProjectName = useApp((s) => s.setProjectName);
 
   function handleStart() {
-    if (!projectName) setProjectName('Mon Projet');
+    if (!projectName) setProjectName('Demo Project');
     router.push('/project');
   }
 

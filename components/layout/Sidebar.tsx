@@ -13,7 +13,7 @@ export function Sidebar() {
   const [draft, setDraft] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const displayName = projectName ?? 'Mon Projet';
+  const displayName = projectName ?? 'Demo Project';
 
   function startEdit() {
     setDraft(displayName);
