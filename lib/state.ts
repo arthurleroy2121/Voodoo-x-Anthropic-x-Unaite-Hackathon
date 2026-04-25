@@ -64,11 +64,38 @@ export const useApp = create<AppState & Actions>()(
       setScenarioPrompt: (p) => setField(set, 'scenarioPrompt', p),
       setCreativeOutput: (o) => setField(set, 'creativeOutput', o),
       setProjectName: (projectName) => set((prev) => ({ ...prev, projectName })),
-      reset: () => set((prev) => ({ ...prev, ...initial })),
+      reset: () =>
+        set((state) => {
+          const {
+            currentStep: _cs,
+            projectName: _pn,
+            gameIdentity: _gi,
+            marketScanConfig: _msc,
+            marketScanResult: _msr,
+            selectedAd: _sa,
+            geminiAnalysis: _ga,
+            topPatterns: _tp,
+            selectedPattern: _sp,
+            creativeBrief: _cb,
+            scenarioPrompt: _snp,
+            creativeOutput: _co,
+            ...actions
+          } = state;
+          return { ...actions, ...initial };
+        }),
     }),
     {
       name: 'vcr.appstate.v1',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => {
+        if (typeof window === 'undefined') {
+          return {
+            getItem: () => null,
+            setItem: () => undefined,
+            removeItem: () => undefined,
+          };
+        }
+        return localStorage;
+      }),
       // Persist only domain state, never transient UI flags (loading/error).
       partialize: (s) => ({
         currentStep: s.currentStep,

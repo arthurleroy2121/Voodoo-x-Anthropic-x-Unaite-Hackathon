@@ -13,8 +13,8 @@ export type MarketScanConfig = {
   category: string;
   tags: string[];
   numberOfAds: 10 | 20 | 30 | 50;
-  timeRange: '30d' | '60d' | '90d';
-  market: 'US' | 'France' | 'UK' | 'Global';
+  timeRange: '7d' | '30d' | '90d';
+  // market is hardcoded server-side (DEFAULT_MARKET in lib/sensorTower.ts)
 };
 
 export type MarketAd = {
