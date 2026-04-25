@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
+import { StoreHydrator } from '@/components/StoreHydrator';
 import './globals.css';
 
 const GeistSans = Geist({
@@ -28,7 +29,10 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <StoreHydrator />
+        {children}
+      </body>
     </html>
   );
 }

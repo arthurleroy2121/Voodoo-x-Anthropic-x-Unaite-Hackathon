@@ -28,6 +28,7 @@ type Actions = {
   setCreativeBrief: (b: CreativeBrief | undefined) => void;
   setScenarioPrompt: (p: ScenarioPrompt | undefined) => void;
   setCreativeOutput: (o: CreativeOutput | undefined) => void;
+  setProjectName: (name: string) => void;
   reset: () => void;
 };
 
@@ -62,6 +63,7 @@ export const useApp = create<AppState & Actions>()(
       setCreativeBrief: (b) => setField(set, 'creativeBrief', b),
       setScenarioPrompt: (p) => setField(set, 'scenarioPrompt', p),
       setCreativeOutput: (o) => setField(set, 'creativeOutput', o),
+      setProjectName: (projectName) => set((prev) => ({ ...prev, projectName })),
       reset: () => set((prev) => ({ ...prev, ...initial })),
     }),
     {
@@ -70,6 +72,7 @@ export const useApp = create<AppState & Actions>()(
       // Persist only domain state, never transient UI flags (loading/error).
       partialize: (s) => ({
         currentStep: s.currentStep,
+        projectName: s.projectName,
         gameIdentity: s.gameIdentity,
         marketScanConfig: s.marketScanConfig,
         marketScanResult: s.marketScanResult,

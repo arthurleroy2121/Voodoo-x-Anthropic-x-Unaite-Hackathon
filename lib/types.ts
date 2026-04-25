@@ -113,6 +113,7 @@ export type CreativeOutput = {
 
 export type AppState = {
   currentStep: 'game' | 'market' | 'patterns' | 'creative';
+  projectName?: string;
   gameIdentity?: GameIdentity;
   marketScanConfig?: MarketScanConfig;
   marketScanResult?: MarketScanResult;
