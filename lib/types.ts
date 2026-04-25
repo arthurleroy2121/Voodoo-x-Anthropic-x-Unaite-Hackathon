@@ -14,7 +14,7 @@ export type MarketScanConfig = {
   tags: string[];
   numberOfAds: 10 | 20 | 30 | 50;
   timeRange: '7d' | '30d' | '90d';
-  market: 'US' | 'France' | 'UK' | 'Global';
+  // market is hardcoded server-side (DEFAULT_MARKET in lib/sensorTower.ts)
 };
 
 export type MarketAd = {
@@ -113,6 +113,7 @@ export type CreativeOutput = {
 
 export type AppState = {
   currentStep: 'game' | 'market' | 'patterns' | 'creative';
+  projectName?: string;
   gameIdentity?: GameIdentity;
   marketScanConfig?: MarketScanConfig;
   marketScanResult?: MarketScanResult;

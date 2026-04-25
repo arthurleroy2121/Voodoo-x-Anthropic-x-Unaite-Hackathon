@@ -28,6 +28,7 @@ type Actions = {
   setCreativeBrief: (b: CreativeBrief | undefined) => void;
   setScenarioPrompt: (p: ScenarioPrompt | undefined) => void;
   setCreativeOutput: (o: CreativeOutput | undefined) => void;
+  setProjectName: (name: string) => void;
   reset: () => void;
 };
 
@@ -62,14 +63,43 @@ export const useApp = create<AppState & Actions>()(
       setCreativeBrief: (b) => setField(set, 'creativeBrief', b),
       setScenarioPrompt: (p) => setField(set, 'scenarioPrompt', p),
       setCreativeOutput: (o) => setField(set, 'creativeOutput', o),
-      reset: () => set((prev) => ({ ...prev, ...initial })),
+      setProjectName: (projectName) => set((prev) => ({ ...prev, projectName })),
+      reset: () =>
+        set((state) => {
+          const {
+            currentStep: _cs,
+            projectName: _pn,
+            gameIdentity: _gi,
+            marketScanConfig: _msc,
+            marketScanResult: _msr,
+            selectedAd: _sa,
+            geminiAnalysis: _ga,
+            topPatterns: _tp,
+            selectedPattern: _sp,
+            creativeBrief: _cb,
+            scenarioPrompt: _snp,
+            creativeOutput: _co,
+            ...actions
+          } = state;
+          return { ...actions, ...initial };
+        }),
     }),
     {
       name: 'vcr.appstate.v1',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => {
+        if (typeof window === 'undefined') {
+          return {
+            getItem: () => null,
+            setItem: () => undefined,
+            removeItem: () => undefined,
+          };
+        }
+        return localStorage;
+      }),
       // Persist only domain state, never transient UI flags (loading/error).
       partialize: (s) => ({
         currentStep: s.currentStep,
+        projectName: s.projectName,
         gameIdentity: s.gameIdentity,
         marketScanConfig: s.marketScanConfig,
         marketScanResult: s.marketScanResult,
