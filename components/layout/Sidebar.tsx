@@ -1,12 +1,12 @@
 import { cn } from '@/lib/utils';
 
+import { SidebarLogo } from './SidebarLogo';
+
 export function Sidebar() {
   return (
     <nav className="flex h-full flex-col gap-6 p-6" aria-label="Project navigation">
       <div>
-        <span className="text-sm font-semibold text-[--color-charcoal]">
-          Voodoo Creative Radar
-        </span>
+        <SidebarLogo />
       </div>
 
       <div className="flex flex-col gap-2">
