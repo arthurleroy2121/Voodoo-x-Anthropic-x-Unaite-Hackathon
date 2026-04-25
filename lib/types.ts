@@ -13,7 +13,7 @@ export type MarketScanConfig = {
   category: string;
   tags: string[];
   numberOfAds: 10 | 20 | 30 | 50;
-  timeRange: '30d' | '60d' | '90d';
+  timeRange: '7d' | '30d' | '90d';
   market: 'US' | 'France' | 'UK' | 'Global';
 };
 

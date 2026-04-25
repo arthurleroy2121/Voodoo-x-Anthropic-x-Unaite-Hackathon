@@ -12,6 +12,13 @@ const GAMES = [
 ] as const;
 
 type GameId = (typeof GAMES)[number]['id'];
+type ScanPeriod = '7d' | '30d' | '90d';
+
+const SCAN_PERIOD_OPTIONS: { value: ScanPeriod; label: string }[] = [
+  { value: '7d', label: 'Last 7 days' },
+  { value: '30d', label: 'Last 30 days' },
+  { value: '90d', label: 'Last 90 days' },
+];
 
 interface GameIdentityProps {
   onStartMarketScan: () => void;
@@ -19,7 +26,9 @@ interface GameIdentityProps {
 
 export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
   const [selectedGameId, setSelectedGameId] = useState<GameId | ''>('');
+  const [scanPeriod, setScanPeriod] = useState<ScanPeriod>('7d');
   const setGameIdentity = useApp((s) => s.setGameIdentity);
+  const setMarketScanConfig = useApp((s) => s.setMarketScanConfig);
 
   const selectedGame =
     GAMES.find((g) => g.id === selectedGameId) ?? null;
@@ -33,6 +42,13 @@ export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
       gameName: selectedGame.name,
       category: selectedGame.category,
       tags: [],
+    });
+    setMarketScanConfig({
+      category: selectedGame.category,
+      tags: [],
+      numberOfAds: 30,
+      timeRange: scanPeriod,
+      market: 'US',
     });
     onStartMarketScan();
   }
@@ -89,6 +105,19 @@ export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
               {categoryLabel}
             </div>
           </div>
+
+          <Select
+            label="Scan period"
+            value={scanPeriod}
+            onChange={(e) => setScanPeriod(e.target.value as ScanPeriod)}
+            style={{ width: '100%' }}
+          >
+            {SCAN_PERIOD_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </Select>
 
           <button
             type="button"
