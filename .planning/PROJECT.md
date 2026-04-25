@@ -12,7 +12,8 @@ Voodoo Creative Radar transforme des signaux marché live (Sensor Tower) en une 
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Landing page premium présentant le produit et le workflow en 4 étapes — Validé en Phase 1
+- [x] Page projet `/project` avec 4 onglets de workflow navigables et sidebar — Validé en Phase 1
 
 ### Active
 
@@ -60,7 +61,7 @@ Voodoo Creative Radar transforme des signaux marché live (Sensor Tower) en une 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Construire une app Next.js neuve à la racine du repo Hackathon | PRD impose Next.js + Vercel ; voodoo-hack reste un sandbox d'exploration distinct | — Pending |
+| Construire une app Next.js neuve à la racine de `voodoo-hack/` (sandbox Vite archivée sous tag `vite-sandbox-final`) | PRD impose Next.js + Vercel ; Vite incompatible App Router | ✓ Delivered in Phase 1 |
 | Mode YOLO + agents complets (research, plan-check, verifier, nyquist) | Hackathon court mais qualité de démo critique — research/checks compensent l'absence de revue humaine | — Pending |
 | Granularité standard (5-8 phases) en complément du découpage PRD à 10 phases | Le PRD propose 10 phases ; le roadmap GSD peut les regrouper si pertinent (laisser le roadmapper trancher) | — Pending |
 | Aucune base de données, state frontend uniquement | Imposé par PRD pour minimiser surface du MVP et focus démo | — Pending |
