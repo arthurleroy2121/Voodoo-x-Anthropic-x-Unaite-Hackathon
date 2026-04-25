@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { GameIdentity } from '@/components/game/GameIdentity';
 import { Tabs, type Tab } from '@/components/ui/Tabs';
 
 const TABS: readonly Tab[] = [
@@ -28,9 +29,13 @@ export function WorkflowTabs() {
     <div className="flex flex-col">
       <Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
       <div className="p-8">
-        <p className="text-sm text-[--color-muted]">
-          {`${TAB_LABELS[activeTab] ?? 'Étape'} — à venir`}
-        </p>
+        {activeTab === 'game' ? (
+          <GameIdentity onStartMarketScan={() => setActiveTab('market')} />
+        ) : (
+          <p className="text-sm text-[--color-muted]">
+            {`${TAB_LABELS[activeTab] ?? 'Étape'} — à venir`}
+          </p>
+        )}
       </div>
     </div>
   );
