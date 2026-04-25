@@ -28,8 +28,15 @@ Détail des pistes dans [`docs/IDEAS.md`](docs/IDEAS.md).
 
 ```bash
 pnpm install
-cp .env.example .env   # remplir ANTHROPIC_API_KEY (et SCENARIO_API_KEY si besoin)
+cp .env.example .env.local   # remplir ANTHROPIC_API_KEY et SENSORTOWER_API_TOKEN
 ```
+
+### MCP servers (Claude Code)
+
+Le repo racine contient un `.mcp.json` qui configure deux serveurs MCP partagés (`scenario` + `sensortower`). À la première ouverture du projet dans Claude Code, accepter le prompt d'approbation.
+
+1. **SensorTower** — copier `.env.example` → `.env.local` et remplir `SENSOR_TOWER_API_TOKEN` (obtenu sur sensortower.com)
+2. **Scenario** — lancer `/mcp` dans Claude Code, sélectionner `scenario` → `Authenticate` (OAuth, ouvre le navigateur)
 
 ## Dev
 
