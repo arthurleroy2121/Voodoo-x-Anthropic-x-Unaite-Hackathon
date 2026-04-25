@@ -24,19 +24,54 @@ Détail des pistes dans [`docs/IDEAS.md`](docs/IDEAS.md).
 - **phaser** — si Track 1 (jeu 2D)
 - **three** + **@react-three/fiber** — si pivot 3D
 
-## Setup
+## Setup (collaborateur)
 
 ```bash
+git clone https://github.com/antoinevoinchet-spec/voodoo-hack.git
+cd voodoo-hack
 pnpm install
-cp .env.example .env.local   # remplir ANTHROPIC_API_KEY et SENSORTOWER_API_TOKEN
+cp .env.example .env.local   # remplir ANTHROPIC_API_KEY et SENSOR_TOWER_API_TOKEN
 ```
+
+> Prérequis : Node ≥ 20, `pnpm` (`npm i -g pnpm`), et — pour le MCP SensorTower — `uv` (`brew install uv` ou `curl -LsSf https://astral.sh/uv/install.sh | sh`).
+
+### Workflow Git
+
+```bash
+git pull --rebase origin main         # avant de commencer
+# … code …
+git checkout -b feat/ma-feature       # branche par feature (recommandé)
+git add <fichiers>
+git commit -m "feat: description courte"
+git push -u origin feat/ma-feature
+gh pr create --base main --fill        # ou via l'UI GitHub
+```
+
+Pour rester simple en hackathon, on peut aussi pousser directement sur `main` (`git push origin main`) si on est synchros — mais `git pull --rebase` avant chaque push pour éviter les merges parasites.
 
 ### MCP servers (Claude Code)
 
-Le repo racine contient un `.mcp.json` qui configure deux serveurs MCP partagés (`scenario` + `sensortower`). À la première ouverture du projet dans Claude Code, accepter le prompt d'approbation.
+Le repo contient `.mcp.json` à la racine, qui déclare deux serveurs MCP partagés : `scenario` (Scenario.gg, génération d'assets) et `sensortower` (analyse marché mobile).
 
-1. **SensorTower** — copier `.env.example` → `.env.local` et remplir `SENSOR_TOWER_API_TOKEN` (obtenu sur sensortower.com)
-2. **Scenario** — lancer `/mcp` dans Claude Code, sélectionner `scenario` → `Authenticate` (OAuth, ouvre le navigateur)
+À la **première ouverture du projet** dans Claude Code, un prompt demande d'approuver les serveurs : répondre **Approve**. Après ça, ils sont actifs automatiquement à chaque session.
+
+Vérifier ou réactiver depuis Claude Code :
+
+```
+/mcp                                   # liste les serveurs et leur statut
+```
+
+Si un serveur est `disabled`, l'activer avec :
+
+```
+claude mcp list                        # depuis le shell, hors Claude Code
+claude mcp enable scenario             # ou: sensortower
+```
+
+Authentification (à faire une fois par poste) :
+
+1. **SensorTower** — remplir `SENSOR_TOWER_API_TOKEN` dans `.env.local` (obtenu sur sensortower.com). Le serveur MCP lit la variable d'env automatiquement.
+2. **Scenario** — taper `/mcp` dans Claude Code, sélectionner `scenario` → `Authenticate` (flow OAuth, ouvre le navigateur).
 
 ## Dev
 

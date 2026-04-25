@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "scenario": {
+      "type": "http",
+      "url": "https://mcp.scenario.com/mcp"
+    },
+    "sensortower": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "sensortower-mcp",
+        "--with",
+        "fastmcp<3",
+        "python",
+        "-m",
+        "sensortower_mcp.server"
+      ],
+      "env": {
+        "SENSOR_TOWER_API_TOKEN": "${SENSOR_TOWER_API_TOKEN}"
+      }
+    }
+  }
+}
