@@ -33,3 +33,7 @@ pnpm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Claude Code / GSD internal
+.claire/
+.claude/
