@@ -25,7 +25,7 @@ Ces règles s'appliquent à **toutes** les phases. Les chercheurs les ont identi
 - Integer phases (1–10) : travail planifié pour le MVP démo
 - Decimal phases (ex. 4.1) : insertions urgentes pendant l'exécution
 
-- [ ] **Phase 1: App Shell + Landing** - Scaffold Next.js + Tailwind, layout global, landing page premium, fondations env/secrets/architecture fichiers
+- [x] **Phase 1: App Shell + Landing** - Scaffold Next.js + Tailwind, layout global, landing page premium, fondations env/secrets/architecture fichiers (completed 2026-04-25)
 - [ ] **Phase 2: Project Page Structure** - Page `/project` avec sidebar, 4 onglets, header projet, state global frontend
 - [ ] **Phase 3: Game Identity (Step 1)** - Sélecteur 2 jeux hardcodés, auto-fill catégorie + tags éditables
 - [ ] **Phase 4: Market Scan UI + Sensor Tower Service** - UI configuration scan + service `lib/sensorTower.ts` live (sans ranking ni sélection)
@@ -240,7 +240,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 → 
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. App Shell + Landing | 0/TBD | Not started | - |
+| 1. App Shell + Landing | 4/4 | Complete    | 2026-04-25 |
 | 2. Project Page Structure | 0/TBD | Not started | - |
 | 3. Game Identity (Step 1) | 0/TBD | Not started | - |
 | 4. Market Scan UI + Sensor Tower Service | 0/TBD | Not started | - |

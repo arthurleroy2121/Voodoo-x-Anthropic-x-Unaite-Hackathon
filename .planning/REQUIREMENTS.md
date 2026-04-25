@@ -10,7 +10,7 @@ Requirements pour la release initiale (MVP démo hackathon). Chaque ID est mapp�
 
 ### Pages
 
-- [ ] **REQ-landing-page**: Landing publique `/` introduisant le produit, le workflow 4 étapes, avec CTA `Get Started` vers `/project`. Doit afficher le titre `Voodoo Creative Radar`, la tagline `From Market Signals to Testable Creatives`, le paragraphe descriptif et 4 cartes de workflow (`1. Select a game` / `2. Scan the market` / `3. Analyze winning patterns` / `4. Generate a creative`). UI premium light, no dark mode, no JSON brut.
+- [x] **REQ-landing-page**: Landing publique `/` introduisant le produit, le workflow 4 étapes, avec CTA `Get Started` vers `/project`. Doit afficher le titre `Voodoo Creative Radar`, la tagline `From Market Signals to Testable Creatives`, le paragraphe descriptif et 4 cartes de workflow (`1. Select a game` / `2. Scan the market` / `3. Analyze winning patterns` / `4. Generate a creative`). UI premium light, no dark mode, no JSON brut.
 
 - [ ] **REQ-project-page**: Page projet `/project` avec header `Demo Project — Voodoo Creative Radar`, 4 onglets séquentiels (`1. Game Identity`, `2. Market Scan`, `3. Pattern Analysis`, `4. Creative Output`) et sidebar gauche (`Voodoo Creative Radar`, group `Projects`, `• Demo Project`, `+ New Project` non fonctionnel).
 
@@ -30,9 +30,9 @@ Requirements pour la release initiale (MVP démo hackathon). Chaque ID est mapp�
 
 - [ ] **REQ-error-and-loading-states**: Chaque appel externe a un loading state visible et un chemin d'erreur explicite avec retry. Sensor Tower → message clair, reste sur l'onglet, retry, jamais de fake silencieux. Gemini → erreur dans Pattern Analysis, retry, ad sélectionnée préservée. Scenario → brief + prompt restent visibles, erreur affichée, retry. Loading texts implémentés au mot près.
 
-- [ ] **REQ-file-architecture**: Arborescence imposée par PRD — `app/` (`page.tsx`, `project/page.tsx`, `layout.tsx`, `globals.css`), `components/` (`layout/`, `landing/`, `game/`, `market/`, `patterns/`, `creative/`, `ui/`), `lib/` (`types.ts`, `state.ts`, `scoring.ts`, `formatters.ts`, `sensorTower.ts`, `gemini.ts`, `scenario.ts`), `prompts/` (`gemini-video-analysis.md`, `pattern-extraction.md`, `creative-brief-generation.md`, `scenario-prompt-generation.md`), `data/` (`games.ts`, `devMockAds.ts`), plus `.env.local.example`, `README.md`, `package.json`.
+- [x] **REQ-file-architecture**: Arborescence imposée par PRD — `app/` (`page.tsx`, `project/page.tsx`, `layout.tsx`, `globals.css`), `components/` (`layout/`, `landing/`, `game/`, `market/`, `patterns/`, `creative/`, `ui/`), `lib/` (`types.ts`, `state.ts`, `scoring.ts`, `formatters.ts`, `sensorTower.ts`, `gemini.ts`, `scenario.ts`), `prompts/` (`gemini-video-analysis.md`, `pattern-extraction.md`, `creative-brief-generation.md`, `scenario-prompt-generation.md`), `data/` (`games.ts`, `devMockAds.ts`), plus `.env.local.example`, `README.md`, `package.json`.
 
-- [ ] **REQ-env-variables**: `.env.local` déclare `SENSOR_TOWER_API_KEY`, `GEMINI_API_KEY`, `SCENARIO_API_KEY`, `NEXT_PUBLIC_USE_DEV_MOCKS=false` ; `.env.local.example` shippé avec valeurs vides ; `.env*` git-ignoré ; aucun secret commité.
+- [x] **REQ-env-variables**: `.env.local` déclare `SENSOR_TOWER_API_KEY`, `GEMINI_API_KEY`, `SCENARIO_API_KEY`, `NEXT_PUBLIC_USE_DEV_MOCKS=false` ; `.env.local.example` shippé avec valeurs vides ; `.env*` git-ignoré ; aucun secret commité.
 
 - [ ] **REQ-mvp-definition**: Happy path bout-en-bout opérationnel — sélectionner un jeu → configurer un scan Sensor Tower live → choisir une des Top 3 ads → analyser sa vidéo full avec Gemini → extraire et sélectionner 1 des 3 patterns → éditer un brief → générer un prompt Scenario → produire une vidéo 30s verticale Scenario. Build Vercel-compatible. Démo narrative tient : "The creative is generated from a real market signal — not from a generic prompt."
 
@@ -83,9 +83,9 @@ Chaque requirement v1 mappé sur une phase unique. Les phases suivent le découp
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REQ-file-architecture | Phase 1 | Pending |
-| REQ-env-variables | Phase 1 | Pending |
-| REQ-landing-page | Phase 1 | Pending |
+| REQ-file-architecture | Phase 1 | Complete |
+| REQ-env-variables | Phase 1 | Complete |
+| REQ-landing-page | Phase 1 | Complete |
 | REQ-project-page | Phase 2 | Pending |
 | REQ-global-state | Phase 2 | Pending |
 | REQ-step1-game-identity | Phase 3 | Pending |
