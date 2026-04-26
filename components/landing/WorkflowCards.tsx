@@ -17,7 +17,7 @@ const STEPS = [
   {
     number: '04',
     title: 'Generate a creative',
-    description: 'Produce a 30-second vertical ad via Scenario.',
+    description: 'Produce a 15-second vertical ad via Scenario.',
   },
 ] as const;
 
@@ -28,15 +28,15 @@ export function WorkflowCards() {
         {/* Connecting line — visible only on md+ between numbers */}
         <div
           aria-hidden="true"
-          className="absolute left-0 right-0 top-5 hidden h-px bg-[--color-border] md:block"
+          className="absolute left-0 right-0 top-5 hidden h-px bg-[var(--color-border)] md:block"
         />
         {STEPS.map((step) => (
           <li key={step.number} className="relative flex flex-col items-start gap-3">
-            <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full bg-[--color-surface] font-mono text-sm font-semibold text-[--color-accent] ring-1 ring-[--color-border]">
+            <span className="relative z-10 inline-flex size-10 items-center justify-center rounded-full bg-[var(--color-surface)] font-mono text-sm font-semibold text-[var(--color-accent)] ring-1 ring-[var(--color-border)]">
               {step.number}
             </span>
-            <h3 className="text-base font-semibold text-[--color-charcoal]">{step.title}</h3>
-            <p className="text-sm leading-relaxed text-[--color-muted]">{step.description}</p>
+            <h3 className="text-base font-semibold text-[var(--color-charcoal)]">{step.title}</h3>
+            <p className="text-sm leading-relaxed text-[var(--color-muted)]">{step.description}</p>
           </li>
         ))}
       </ol>

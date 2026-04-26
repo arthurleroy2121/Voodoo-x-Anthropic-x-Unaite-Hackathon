@@ -11,13 +11,13 @@ export interface AppShellProps {
 
 export function AppShell({ sidebar, topbar, children, className }: AppShellProps) {
   return (
-    <div className={cn('flex min-h-screen bg-[--color-bg]', className)}>
-      <aside className="w-64 shrink-0 border-r border-[--color-border] bg-[--color-surface]">
+    <div className={cn('flex min-h-screen bg-[var(--color-bg)]', className)}>
+      <aside className="w-64 shrink-0 border-r border-[var(--color-border)] bg-[var(--color-surface)]">
         {sidebar}
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         {topbar && (
-          <header className="h-14 shrink-0 border-b border-[--color-border] bg-[--color-surface]">
+          <header className="h-14 shrink-0 border-b border-[var(--color-border)] bg-[var(--color-surface)]">
             {topbar}
           </header>
         )}

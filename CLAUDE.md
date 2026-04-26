@@ -37,7 +37,7 @@ Mode: **YOLO** (auto-approve). Granularity: standard. Workflow agents enabled (r
   - `Running Sensor Tower scan...`
   - `Analyzing selected ad with Gemini...`
   - `Generating creative brief...`
-  - `Generating 30-second ad with Scenario...`
+  - `Generating 15-second ad with Scenario...`
 - **Vercel timeouts**: every `app/api/*/route.ts` exports `maxDuration = 300` and `runtime = "nodejs"`. Mirror in `vercel.json`.
 - **Gemini = Files API upload flow** (server-fetch bytes → upload → poll until `state==="ACTIVE"` → `generateContent` with `responseMimeType: "application/json"` + `responseJsonSchema` + Zod boundary validation + `finishReason` check). Never pass Sensor Tower CDN URLs directly.
 - **Scenario = two-route polling**: `POST /api/scenario/start` → `{ jobId }`; client polls `GET /api/scenario/status?jobId=...` (3-5s, 8-min cap, AbortController on unmount, jobId in localStorage for refresh recovery).
@@ -46,7 +46,7 @@ Mode: **YOLO** (auto-approve). Granularity: standard. Workflow agents enabled (r
 
 ## Output
 
-The MVP ships when a user can: pick a Voodoo game → run a live Sensor Tower scan → select one of the Top 3 ads → analyze it with Gemini → select one of 3 patterns → edit a brief → generate a Scenario prompt → produce a 30s vertical ad. Demo line: *"The creative is generated from a real market signal — not a generic prompt."*
+The MVP ships when a user can: pick a Voodoo game → run a live Sensor Tower scan → select one of the Top 3 ads → analyze it with Gemini → select one of 3 patterns → edit a brief → generate a Scenario prompt → pick a starting frame from the per-game seed gallery → produce a 15s vertical ad (chained 10s + 5s clips). Demo line: *"The creative is generated from a real market signal — not a generic prompt."*
 
 ## Voodoo-hack sandbox
 

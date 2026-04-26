@@ -6,7 +6,7 @@
 > **Deploy target:** Vercel
 > **APIs:** Sensor Tower (live) · Gemini · Scenario
 > **No database.** Frontend state only.
-> **Final output:** One 30-second video ad generated via Scenario.
+> **Final output:** One 15-second video ad generated via Scenario (two chained 10s + 5s img2vid clips).
 
 ---
 
@@ -48,7 +48,7 @@ Phase 10 — UI polish + error states + loading states + Vercel readiness
 Content:
 - Title: `Voodoo Creative Radar`
 - Tagline: `From Market Signals to Testable Creatives`
-- Description: `Analyse market ads, extract winning creative patterns, and generate a testable 30-second ad for a selected Voodoo game.`
+- Description: `Analyse market ads, extract winning creative patterns, and generate a testable 15-second ad for a selected Voodoo game.`
 - 4 workflow cards: `1. Select a game` / `2. Scan the market` / `3. Analyze winning patterns` / `4. Generate a creative`
 - CTA button: `Get Started` → navigates to `/project`
 
@@ -254,7 +254,7 @@ Pattern Score = 35% Frequency + 25% Game Fit + 20% Freshness + 20% Creative Acti
 Frequency: strength of pattern presence in selected ad + Sensor Tower signals
 Game Fit: compatibility with selected game category + tags
 Freshness: recency based on first seen / last seen
-Creative Actionability: ease of turning pattern into Scenario prompt + 30s video
+Creative Actionability: ease of turning pattern into Scenario prompt + 15s video
 ```
 
 Each pattern card shows:
@@ -295,8 +295,8 @@ type PatternAnalysisResult = {
 ---
 
 ## STEP 4 — CREATIVE OUTPUT
+**Goal:** Generate one 15-second vertical mobile ad via Scenario from the selected pattern + brief. The 15s render is delivered as two chained `img2vid` clips (10s + 5s) sharing a frame at the seam, played back-to-back client-side.
 
-**Goal:** Generate one 30-second vertical mobile ad via Scenario from the selected pattern + brief.
 
 Service: `lib/scenario.ts`
 ```ts
@@ -314,7 +314,7 @@ Page sections (all required):
 
 Creative brief required fields:
 ```
-Creative concept · Selected pattern · Opening hook · 30-second scene flow ·
+Creative concept · Selected pattern · Opening hook · 15-second scene flow ·
 Visual direction · Gameplay reference · Text overlays · CTA ·
 Rationale · Source ad evidence · Adaptation to selected game
 ```
@@ -328,20 +328,20 @@ Opening Hook: The ad opens with a visible wrong move that creates immediate frus
   0-3s: Show a losing or wrong action inspired by the selected ad pattern.
   3-7s: Increase tension with visual feedback.
   7-15s: Show the correct move or reversal.
-  15-23s: Show reward, progress, or payoff.
-  23-30s: End with a strong CTA.
+  6-11s: Show reward, progress, or payoff.
+  11-15s: End with a strong CTA.
 Visual Direction: Clean, polished, Voodoo-like mobile game aesthetic. Light, readable, playful, premium.
 Text Overlays: "Can you fix this?" / "Only the best players solve it." / "Play now."
 CTA: Play Now
 Rationale: This creative uses the selected market pattern identified from the top Sensor Tower ad and adapts it to the selected game's category and tags.
 ```
 
-Scenario prompt must include: 30s duration · vertical mobile ad format · game category · game tags · selected pattern · scene by scene · visual style · text overlays · CTA · rationale.
+Scenario prompt must include: 15s total duration (10s + 5s chained) · vertical mobile ad format · game category · game tags · selected pattern · scene by scene · visual style · text overlays · CTA · rationale.
 
-Loading text: `Generating 30-second ad with Scenario...`
+Loading text: `Generating 15-second ad with Scenario...` (with `Generating clip 1 of 2 (10s)…` / `Generating clip 2 of 2 (5s)…` intermediate states).
 Error: keep brief + prompt visible, show error, allow retry.
 
-Actions: `Generate Creative Brief` · `Edit Brief` · `Generate Scenario Prompt` · `Generate 30s Ad with Scenario` · `Regenerate`
+Actions: `Generate Creative Brief` · `Edit Brief` · `Generate Scenario Prompt` · `Pick Starting Frame` · `Generate 15s Ad with Scenario` · `Regenerate`
 
 Output types:
 ```ts
@@ -503,7 +503,7 @@ Every API call must have a visible loading state with these exact texts:
 - `Running Sensor Tower scan...`
 - `Analyzing selected ad with Gemini...`
 - `Generating creative brief...`
-- `Generating 30-second ad with Scenario...`
+- `Generating 15-second ad with Scenario...`
 
 ---
 
@@ -538,7 +538,7 @@ Every API call must have a visible loading state with these exact texts:
 
 **Pattern Analysis:** Full video sent to Gemini · Individual analysis displayed (no raw JSON) · Exactly 3 patterns extracted + scored · Pattern mapping table visible · User can select one pattern.
 
-**Creative Output:** Selected pattern shown · Brief generated + editable · Scenario prompt generated · Scenario called · 30s video displayed · Rationale + evidence shown.
+**Creative Output:** Selected pattern shown · Brief generated + editable · Scenario prompt generated · Seed image picked from per-game gallery · Scenario called · 15s video (10s + 5s chained) displayed · Rationale + evidence shown.
 
 **Technical:** No database · Frontend state only · Vercel-compatible · `.env.local` for all API keys · All loading + error states implemented · Clean modular file structure.
 
@@ -548,7 +548,7 @@ Every API call must have a visible loading state with these exact texts:
 
 The MVP is complete when:
 
-> A user can select a Voodoo game, configure a live Sensor Tower scan, pick one of the top 3 ads, analyze its full video with Gemini, extract and select one of 3 creative patterns, edit a brief, generate a Scenario prompt, and produce a 30-second video ad via Scenario.
+> A user can select a Voodoo game, configure a live Sensor Tower scan, pick one of the top 3 ads, analyze its full video with Gemini, extract and select one of 3 creative patterns, edit a brief, generate a Scenario prompt, pick a starting frame from the per-game seed image gallery, and produce a 15-second video ad via Scenario.
 
 **Key narrative for demo:**
 > "The creative is generated from a real market signal — not from a generic prompt."

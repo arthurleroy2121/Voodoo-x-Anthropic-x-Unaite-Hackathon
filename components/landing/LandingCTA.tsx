@@ -6,11 +6,11 @@ import { useApp } from '@/lib/state';
 
 export function LandingCTA() {
   const router = useRouter();
-  const projectName = useApp((s) => s.projectName);
-  const setProjectName = useApp((s) => s.setProjectName);
+  const projects = useApp((s) => s.projects);
+  const addProject = useApp((s) => s.addProject);
 
   function handleStart() {
-    if (!projectName) setProjectName('Demo Project');
+    if (!projects || projects.length === 0) addProject('Demo Project');
     router.push('/project');
   }
 

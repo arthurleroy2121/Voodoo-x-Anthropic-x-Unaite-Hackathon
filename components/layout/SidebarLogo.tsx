@@ -30,14 +30,14 @@ export function SidebarLogo() {
       onAnimationEnd={() => setBouncing(false)}
       aria-label="Retour à l'accueil — Voodoo Creative Radar"
       className={cn(
-        'inline-flex items-center rounded-md border border-[--color-border] bg-[--color-surface]',
-        'px-3 py-2 text-sm font-semibold text-[--color-charcoal]',
+        'inline-flex items-center rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]',
+        'px-3 py-2 text-sm font-semibold text-[var(--color-charcoal)]',
         'transition-[transform,box-shadow,border-color,opacity] duration-300 ease-out',
-        'hover:-translate-y-0.5 hover:border-[--color-accent]',
+        'hover:-translate-y-0.5 hover:border-[var(--color-accent)]',
         'hover:shadow-[0_0_24px_4px_rgba(233,30,99,0.35)]',
         bouncing &&
-          'animate-[springBounce_350ms_cubic-bezier(0.34,1.56,0.64,1)] border-[--color-accent]',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--color-accent] focus-visible:ring-offset-2',
+          'animate-[springBounce_350ms_cubic-bezier(0.34,1.56,0.64,1)] border-[var(--color-accent)]',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-offset-2',
       )}
     >
       Voodoo Creative Radar

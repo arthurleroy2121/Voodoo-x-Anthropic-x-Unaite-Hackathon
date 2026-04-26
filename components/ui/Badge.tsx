@@ -14,9 +14,9 @@ export function Badge({
       className={cn(
         'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
         variant === 'neutral' &&
-          'bg-[--color-border] text-[--color-charcoal]',
+          'bg-[var(--color-border)] text-[var(--color-charcoal)]',
         variant === 'accent' &&
-          'bg-[--color-accent] text-white',
+          'bg-[var(--color-accent)] text-white',
         className,
       )}
       {...props}

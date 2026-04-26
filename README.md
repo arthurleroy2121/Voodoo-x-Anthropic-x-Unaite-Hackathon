@@ -1,6 +1,6 @@
 # Voodoo Creative Radar
 
-Outil interne Next.js qui transforme un signal marché live (Sensor Tower) en une publicité 30s testable (Scenario), via extraction de patterns créatifs gagnants par Gemini.
+Outil interne Next.js qui transforme un signal marché live (Sensor Tower) en une publicité 15s testable (Scenario, deux clips img2vid de 10s + 5s chaînés), via extraction de patterns créatifs gagnants par Gemini.
 
 ## Stack
 

@@ -15,18 +15,18 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-xl border border-[--color-border] bg-[--color-surface] p-6 shadow-sm',
+        'rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-sm',
         className,
       )}
       {...props}
     >
       {title && (
-        <h2 className="text-base font-semibold text-[--color-charcoal] mb-1">
+        <h2 className="text-base font-semibold text-[var(--color-charcoal)] mb-1">
           {title}
         </h2>
       )}
       {description && (
-        <p className="text-sm text-[--color-muted] mb-4">{description}</p>
+        <p className="text-sm text-[var(--color-muted)] mb-4">{description}</p>
       )}
       {children}
     </div>

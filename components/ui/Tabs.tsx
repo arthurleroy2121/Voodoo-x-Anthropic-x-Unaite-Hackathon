@@ -19,7 +19,7 @@ export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
     <div
       role="tablist"
       className={cn(
-        'flex border-b border-[--color-border]',
+        'flex border-b border-[var(--color-border)]',
         className,
       )}
     >
@@ -34,10 +34,10 @@ export function Tabs({ tabs, activeTab, onTabChange, className }: TabsProps) {
             onClick={() => onTabChange(tab.id)}
             className={cn(
               '-mb-px border-b-2 px-4 py-3 text-sm font-medium transition-colors',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--color-accent]',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]',
               isActive
-                ? 'border-[--color-accent] text-[--color-accent]'
-                : 'border-transparent text-[--color-muted] hover:text-[--color-charcoal]',
+                ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+                : 'border-transparent text-[var(--color-muted)] hover:text-[var(--color-charcoal)]',
             )}
           >
             {tab.label}

@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Card } from '@/components/ui/Card';
 import { Select } from '@/components/ui/Select';
 import { useApp } from '@/lib/state';
@@ -24,11 +22,37 @@ interface GameIdentityProps {
   onStartMarketScan: () => void;
 }
 
+const isKnownGame = (id: string | undefined): id is GameId =>
+  !!id && GAMES.some((g) => g.id === id);
+
 export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
-  const [selectedGameId, setSelectedGameId] = useState<GameId | ''>('');
-  const [scanPeriod, setScanPeriod] = useState<ScanPeriod>('7d');
+  // Form values are stored per-project in `gameSetupDraft`. No local React
+  // state for the dropdowns — every change is committed to the store immediately
+  // and synced to the active project's workflow, so values cannot leak between
+  // projects regardless of mount/unmount behaviour.
+  const draftGameId = useApp((s) => s.gameSetupDraft?.gameId);
+  const draftScanPeriod = useApp((s) => s.gameSetupDraft?.scanPeriod);
+  const setGameSetupDraft = useApp((s) => s.setGameSetupDraft);
   const setGameIdentity = useApp((s) => s.setGameIdentity);
   const setMarketScanConfig = useApp((s) => s.setMarketScanConfig);
+
+  const selectedGameId: GameId | '' = isKnownGame(draftGameId) ? draftGameId : '';
+  const scanPeriod: ScanPeriod = draftScanPeriod ?? '7d';
+
+  function handleGameChange(value: string) {
+    const gameId = value === '' ? undefined : value;
+    setGameSetupDraft({
+      ...(gameId !== undefined ? { gameId } : {}),
+      scanPeriod,
+    });
+  }
+
+  function handlePeriodChange(value: ScanPeriod) {
+    setGameSetupDraft({
+      ...(isKnownGame(draftGameId) ? { gameId: draftGameId } : {}),
+      scanPeriod: value,
+    });
+  }
 
   const selectedGame =
     GAMES.find((g) => g.id === selectedGameId) ?? null;
@@ -48,7 +72,6 @@ export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
       tags: [],
       numberOfAds: 30,
       timeRange: scanPeriod,
-      market: 'US',
     });
     onStartMarketScan();
   }
@@ -63,9 +86,7 @@ export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
           <Select
             label="Game"
             value={selectedGameId}
-            onChange={(e) =>
-              setSelectedGameId(e.target.value as GameId | '')
-            }
+            onChange={(e) => handleGameChange(e.target.value)}
             style={{ width: '100%' }}
           >
             <option value="" disabled>
@@ -109,7 +130,7 @@ export function GameIdentity({ onStartMarketScan }: GameIdentityProps) {
           <Select
             label="Scan period"
             value={scanPeriod}
-            onChange={(e) => setScanPeriod(e.target.value as ScanPeriod)}
+            onChange={(e) => handlePeriodChange(e.target.value as ScanPeriod)}
             style={{ width: '100%' }}
           >
             {SCAN_PERIOD_OPTIONS.map((opt) => (
