@@ -14,6 +14,7 @@ import type {
   MarketScanConfig,
   MarketScanResult,
   Project,
+  ProjectSchedule,
   ProjectWorkflow,
   ScenarioPrompt,
   ScenarioPromptBrief,
@@ -44,6 +45,19 @@ type Actions = {
   selectProject: (id: string) => void;
   renameProject: (id: string, name: string) => void;
   removeProject: (id: string) => void;
+  // ── Schedule (UI-only preview feature) ──────────────────────────────────
+  // Schedules are persisted via the same Zustand `persist` middleware as the
+  // rest of the store (localStorage key `vcr.appstate.v1`). They never trigger
+  // any backend, cron, or API call — they exist purely as a UI configuration
+  // preview of a future automation feature.
+  addSchedule: (
+    input: Omit<ProjectSchedule, 'id' | 'createdAt'>,
+  ) => string;
+  updateSchedule: (
+    id: string,
+    patch: Partial<Omit<ProjectSchedule, 'id' | 'createdAt'>>,
+  ) => void;
+  removeSchedule: (id: string) => void;
   reset: () => void;
 };
 
@@ -253,17 +267,30 @@ export const useApp = create<AppState & Actions>()(
           const projects = prev.projects ?? [];
           if (!projects.some((p) => p.id === id)) return prev;
           const remaining = projects.filter((p) => p.id !== id);
+          // Cascade: drop schedules whose project no longer exists.
+          const remainingSchedules = (prev.schedules ?? []).filter(
+            (s) => s.projectId !== id,
+          );
 
           // Deleting a non-active project: just drop it from the list.
           if (prev.currentProjectId !== id) {
-            return { ...prev, projects: remaining };
+            return {
+              ...prev,
+              projects: remaining,
+              schedules: remainingSchedules,
+            };
           }
 
           // Deleted the active project: switch to the first remaining (if any).
           if (remaining.length > 0) {
             const next = remaining[0]!;
             const restored = applySnapshot(prev, next.workflow);
-            return { ...restored, projects: remaining, currentProjectId: next.id };
+            return {
+              ...restored,
+              projects: remaining,
+              currentProjectId: next.id,
+              schedules: remainingSchedules,
+            };
           }
 
           // No projects left: wipe the active workspace and unset the pointer.
@@ -272,7 +299,33 @@ export const useApp = create<AppState & Actions>()(
             ...cleared,
             projects: remaining,
             currentProjectId: undefined,
+            schedules: remainingSchedules,
           } as unknown as StoreState;
+        }),
+      addSchedule: (input) => {
+        const id = newProjectId();
+        const createdAt = new Date().toISOString();
+        const fresh: ProjectSchedule = { ...input, id, createdAt };
+        set((prev) => ({
+          ...prev,
+          schedules: [...(prev.schedules ?? []), fresh],
+        }));
+        return id;
+      },
+      updateSchedule: (id, patch) =>
+        set((prev) => {
+          const list = prev.schedules ?? [];
+          if (!list.some((s) => s.id === id)) return prev;
+          return {
+            ...prev,
+            schedules: list.map((s) => (s.id === id ? { ...s, ...patch } : s)),
+          };
+        }),
+      removeSchedule: (id) =>
+        set((prev) => {
+          const list = prev.schedules ?? [];
+          if (!list.some((s) => s.id === id)) return prev;
+          return { ...prev, schedules: list.filter((s) => s.id !== id) };
         }),
       reset: () =>
         set((state) => {
@@ -296,6 +349,7 @@ export const useApp = create<AppState & Actions>()(
             endSeedImageId: _esid,
             endSeedImageUrl: _esur,
             creativeOutput: _co,
+            schedules: _sched,
             ...actions
           } = state;
           return { ...actions, ...initial };
@@ -303,7 +357,7 @@ export const useApp = create<AppState & Actions>()(
     }),
     {
       name: 'vcr.appstate.v1',
-      version: 7,
+      version: 8,
       // v1 used `projectName: string`. v2 introduced `projects[]` + `currentProjectId`.
       // v3 added `workflow` to each Project. v4 hard-resets every project's
       // workflow snapshot to recover from pollution caused by earlier buggy
@@ -349,6 +403,16 @@ export const useApp = create<AppState & Actions>()(
           s = next as typeof s;
         }
 
+        if (version < 8) {
+          // v8 introduces the `schedules` slice (UI-only preview feature).
+          // Non-destructive: we just initialise the array if absent so the
+          // store shape matches the new type. Existing projects/workflows
+          // are preserved untouched.
+          if (!Array.isArray(s.schedules)) {
+            s = { ...s, schedules: [] };
+          }
+        }
+
         return s as AppState;
       },
       storage: createJSONStorage(() => {
@@ -383,6 +447,7 @@ export const useApp = create<AppState & Actions>()(
         endSeedImageId: s.endSeedImageId,
         endSeedImageUrl: s.endSeedImageUrl,
         creativeOutput: s.creativeOutput,
+        schedules: s.schedules,
       }),
       // CRITICAL (PITFALLS.md): skipHydration prevents Next.js App Router hydration mismatch.
       // Phase 2 calls useApp.persist.rehydrate() from a useEffect in app/layout.tsx

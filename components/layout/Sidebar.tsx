@@ -1,8 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { CalendarClock } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
+import { ScheduleButton } from '@/components/schedule/ScheduleButton';
 import { useApp } from '@/lib/state';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +12,7 @@ import { SidebarLogo } from './SidebarLogo';
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
   const projects = useApp((s) => s.projects) ?? [];
   const currentProjectId = useApp((s) => s.currentProjectId);
   const addProject = useApp((s) => s.addProject);
@@ -45,13 +48,18 @@ export function Sidebar() {
     router.push('/project');
   }
 
+  const isScheduleRoute = pathname === '/schedule';
+
   return (
-    <nav className="flex h-full flex-col gap-6 p-6" aria-label="Project navigation">
+    <nav
+      className="flex h-full flex-col gap-6 p-6"
+      aria-label="Project navigation"
+    >
       <div>
         <SidebarLogo />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-1 flex-col gap-2">
         <span className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted)]">
           Projects
         </span>
@@ -99,6 +107,13 @@ export function Sidebar() {
                         >
                           {project.name}
                         </button>
+                        {/*
+                          Schedule trigger — ALWAYS visible (Schedule PRD §1).
+                          Sits between the row label and the existing
+                          edit/delete cluster (which remain hover-only to keep
+                          the row visually quiet).
+                        */}
+                        <ScheduleButton project={project} />
                         {isActive && (
                           <button
                             type="button"
@@ -162,6 +177,36 @@ export function Sidebar() {
         >
           <span aria-hidden="true">+</span>
           <span>Nouveau projet</span>
+        </button>
+      </div>
+
+      {/*
+        Bottom navigation — Schedule entry (Schedule PRD §3).
+        Pushed to the bottom via `mt-auto` (parent flex column). Active state
+        is derived from the current pathname so users get a clear "you are
+        here" signal when on /schedule.
+      */}
+      <div className="mt-auto border-t border-[var(--color-border)] pt-4">
+        <button
+          type="button"
+          onClick={() => router.push('/schedule')}
+          aria-current={isScheduleRoute ? 'page' : undefined}
+          className={cn(
+            'inline-flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]',
+            isScheduleRoute
+              ? 'bg-[var(--color-bg)] text-[var(--color-charcoal)]'
+              : 'text-[var(--color-muted)] hover:bg-[var(--color-bg)] hover:text-[var(--color-charcoal)]',
+          )}
+        >
+          <CalendarClock
+            className={cn(
+              'h-4 w-4',
+              isScheduleRoute && 'text-[var(--color-accent)]',
+            )}
+            aria-hidden="true"
+          />
+          <span>Schedule</span>
         </button>
       </div>
     </nav>

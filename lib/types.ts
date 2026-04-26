@@ -224,6 +224,26 @@ export type Project = {
   workflow: ProjectWorkflow;
 };
 
+// ── Schedule (UI-only preview feature — Section 4 of the Schedule PRD) ─────
+//
+// Scheduling is a *preview* feature: schedules are persisted to localStorage
+// only and never trigger any backend / cron / API call. The pipeline they
+// describe (Market Scan → Gemini Pattern Analysis → Scenario Creative
+// Generation) is shown as a static text block in the UI for documentation
+// purposes — no automation runs against it in this MVP.
+export type ProjectSchedule = {
+  id: string;
+  projectId: string;
+  projectName: string;
+  associatedGame: string;
+  recurrence: 'Daily' | 'Weekly';
+  /** "HH:MM" 24h format. */
+  time: string;
+  status: 'Active' | 'Paused';
+  /** ISO string. */
+  createdAt: string;
+};
+
 export type AppState = {
   currentStep: WorkflowStep;
   projects?: Project[];
@@ -245,4 +265,6 @@ export type AppState = {
   endSeedImageId?: string;
   endSeedImageUrl?: string;
   creativeOutput?: CreativeOutput;
+  /** UI-only preview feature; never triggers backend automation. */
+  schedules?: ProjectSchedule[];
 };

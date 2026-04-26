@@ -26,3 +26,39 @@ body {
   65%  { transform: scale(1.06); box-shadow: 0 0 36px 10px rgba(233, 30, 99, 0.55); }
   100% { transform: scale(1);    box-shadow: 0 0 24px 4px rgba(233, 30, 99, 0.35); }
 }
+
+/*
+ * Schedule popover scrollbar — premium, light, slightly gaming-inspired.
+ * Used when the popover content exceeds the available viewport height (small
+ * windows, long forms). The thumb picks up the brand accent on hover so the
+ * UI stays visually consistent with the rest of the app.
+ *
+ * Firefox: `scrollbar-*` properties (CSS WG standard).
+ * Chromium / WebKit: `::-webkit-scrollbar-*` pseudo-elements.
+ */
+.schedule-popover-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+.schedule-popover-scroll:hover {
+  scrollbar-color: var(--color-muted) transparent;
+}
+.schedule-popover-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.schedule-popover-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.schedule-popover-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 9999px;
+  border: 2px solid var(--color-surface); /* visual padding */
+  transition: background-color 0.15s ease;
+}
+.schedule-popover-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: var(--color-muted);
+}
+.schedule-popover-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-accent);
+}
