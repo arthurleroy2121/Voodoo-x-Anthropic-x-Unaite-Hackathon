@@ -23,10 +23,16 @@ import { Card } from '@/components/ui/Card';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { LoadingState } from '@/components/ui/LoadingState';
 import { GENERATING_15S_AD } from '@/lib/copy';
-import { generateScenarioVideo } from '@/lib/scenarioVideo';
 import { useApp } from '@/lib/state';
 
 type Phase = 'idle' | 'generating' | 'done' | 'error';
+
+// Demo / pitch mode — instead of hitting Scenario (Seedance 2.0) we replay a
+// pre-rendered MP4 so the workflow can be showcased reliably without burning
+// API credits or waiting 2-4 minutes for a real render. The file lives under
+// `voodoo-hack/public/` and is served by Next.js at the URL below.
+const MOCK_VIDEO_URL = '/asset_sdgc4RtyLwnnpBuo8vXmTaDh.mp4';
+const MOCK_GENERATION_DELAY_MS = 3000;
 
 export function CreativeOutputStep() {
   const draft = useApp((s) => s.scenarioPromptDraft);
@@ -102,12 +108,14 @@ export function CreativeOutputStep() {
     });
 
     try {
-      const data = await generateScenarioVideo({
-        prompt: draft,
-        startImageUrl: startSeedImageUrl,
-        endImageUrl: endSeedImageUrl,
-        gameId: gameIdentity.gameId,
-      });
+      // --- DEMO MODE ---------------------------------------------------------
+      // Skip the real Seedance 2.0 round-trip and replay a pre-rendered video
+      // after a short delay so the loading state is visible.
+      await new Promise((resolve) =>
+        setTimeout(resolve, MOCK_GENERATION_DELAY_MS),
+      );
+
+      const fakeJobId = `mock-${Date.now()}`;
 
       setCreativeOutput({
         ...creativeOutput,
@@ -115,8 +123,8 @@ export function CreativeOutputStep() {
         ...(startSeedImageUrl !== undefined ? { startSeedImageUrl } : {}),
         ...(endSeedImageId !== undefined ? { endSeedImageId } : {}),
         ...(endSeedImageUrl !== undefined ? { endSeedImageUrl } : {}),
-        videoUrl: data.videoUrl,
-        scenarioJobId: data.jobId,
+        videoUrl: MOCK_VIDEO_URL,
+        scenarioJobId: fakeJobId,
         totalDurationSec: 15,
         status: 'complete',
       });

@@ -37,3 +37,8 @@ pnpm-debug.log*
 # Claude Code / GSD internal
 .claire/
 .claude/
+
+# Large media assets — not committed
+public/*.mp4
+public/*.mov
+public/*.webm
